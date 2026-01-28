@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Spam SMS Detector</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg: linear-gradient(135deg, #667eea, #764ba2);
+    --card: #ffffff;
+    --text: #333;
+}
+
+body.dark {
+    --bg: linear-gradient(135deg, #111827, #1f2933);
+    --card: #1f2933;
+    --text: #f9fafb;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    background: var(--card);
+    width: 90%;
+    max-width: 420px;
+    padding: 30px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+    color: var(--text);
+}
+
+h1 {
+    margin-bottom: 8px;
+}
+
+p {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin-top: 15px;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 10px;
+    background: #667eea;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.loader {
+    display: none;
+    margin-top: 15px;
+}
+
+.result {
+    margin-top: 20px;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.spam {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.ham {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.accuracy {
+    margin-top: 15px;
+    font-size: 13px;
+    opacity: 0.7;
+}
+
+.toggle {
+    margin-top: 15px;
+    font-size: 13px;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+@media (max-width: 480px) {
+    h1 { font-size: 22px; }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+    <h1>📩 Spam SMS Detector</h1>
+    <p>AI-based SMS classification system</p>
+
+    <form method="post" onsubmit="showLoader()">
+        <input type="text" name="sms" placeholder="Type SMS here..." required>
+        <button type="submit">Analyze</button>
+    </form>
+
+    <div class="loader" id="loader">⏳ Analyzing...</div>
+
+    {% if result %}
+        <div class="result {% if 'Spam' in result %}spam{% else %}ham{% endif %}">
+            {{ result }}
+        </div>
+    {% endif %}
+
+    <div class="accuracy">
+        Model Accuracy: {{ accuracy }}%
+    </div>
+
+    <div class="toggle" onclick="toggleDark()">🌙 Toggle Dark Mode</div>
+</div>
+
+<script>
+function showLoader() {
+    document.getElementById("loader").style.display = "block";
+}
+
+function toggleDark() {
+    document.body.classList.toggle("dark");
+}
+</script>
+
+</body>
+</html>
