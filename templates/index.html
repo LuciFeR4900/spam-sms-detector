@@ -91,12 +91,12 @@
     <div class="card">
         <h1>📩 Spam SMS Detector</h1>
         <p>Enter an SMS message below to check if it is spam</p>
-
+       
         <form method="POST">
-            <textarea name="message" required></textarea>
+    <textarea name="message" required></textarea>
+    <button type="submit">Check Message</button>
+</form>
 
-            <button type="submit">Check Message</button>
-        </form>
 
         {% if prediction %}
             <div class="result {{ 'spam' if prediction == 'Spam' else 'not-spam' }}">
@@ -111,6 +111,7 @@
 
 </body>
 </html>
+
 
 
 
