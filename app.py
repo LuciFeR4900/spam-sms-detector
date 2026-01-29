@@ -1,6 +1,10 @@
+from werkzeug.middleware.proxy_fix import ProxyFix
+
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
+
 
 @app.route("/", methods=["GET", "POST"])
 def home():
@@ -20,6 +24,3 @@ def home():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
-
-
-
