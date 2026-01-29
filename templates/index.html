@@ -9,6 +9,39 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
+
+        .result {
+    margin-top: 22px;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    animation: pop 0.5s ease;
+}
+
+.spam {
+    background: #ffe6e6;
+    color: #c40000;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+}
+
+.not-spam {
+    background: #e6fff1;
+    color: #007a3d;
+    box-shadow: 0 0 15px rgba(0, 255, 128, 0.3);
+}
+
+@keyframes pop {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
         * {
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
@@ -134,6 +167,12 @@
             {% endif %}
         </div>
     {% endif %}
+    {% if prediction %}
+    <p style="margin-top:10px; font-size:13px; color:#666;">
+        Model Accuracy: <strong>{{ accuracy }}</strong> (Naive Bayes)
+    </p>
+{% endif %}
+
 
     <footer>
         Mini Project • AI / ML • Flask
@@ -142,5 +181,3 @@
 
 </body>
 </html>
-
-

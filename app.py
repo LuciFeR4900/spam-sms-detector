@@ -20,7 +20,12 @@ def home():
             else:
                 prediction = "Not Spam"
 
-    return render_template("index.html", prediction=prediction)
+    #return render_template("index.html", prediction=prediction)
+    return render_template(
+    "index.html",
+    prediction=prediction,
+    accuracy="98%"
+)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
