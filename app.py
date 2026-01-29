@@ -1,36 +1,30 @@
 from flask import Flask, render_template, request
-import pandas as pd
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.naive_bayes import MultinomialNB
+import pickle
 
 app = Flask(__name__)
 
-data = pd.read_csv("spam.csv", encoding="latin-1")[["v1", "v2"]]
-data.columns = ["label", "message"]
-data["label"] = data["label"].map({"ham": 0, "spam": 1})
-
-vectorizer = CountVectorizer()
-X = vectorizer.fit_transform(data["message"])
-y = data["label"]
-
-model = MultinomialNB()
-model.fit(X, y)
+# load model and vectorizer
+model = pickle.load(open("model.pkl", "rb"))
+vectorizer = pickle.load(open("vectorizer.pkl", "rb"))
 
 @app.route("/", methods=["GET", "POST"])
 def home():
-    result = ""
+    prediction = None
+
     if request.method == "POST":
-        print("FORM SUBMITTED")
-        msg = request.form["sms"]
-        msg_vector = vectorizer.transform([msg])
-        prediction = model.predict(msg_vector)
-        result = "🚫 Spam Message" if prediction[0] == 1 else "✅ Not Spam Message"
-    #return "<h1>Flask is connected</h1>"
-    return render_template("index.html", result=result)
+        message = request.form.get("message")
+
+        if message:
+            data = vectorizer.transform([message])
+            result = model.predict(data)[0]
+
+            prediction = "Spam" if result == 1 else "Not Spam"
+
+    return render_template("index.html", prediction=prediction)
 
 
-#if __name__ == "__main__":
-    #app.run(debug=True)
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
+
 
